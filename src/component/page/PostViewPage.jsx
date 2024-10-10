@@ -17,10 +17,6 @@ const Wrapper = styled.div`
 const Container = styled.div`
     width: 100%;
     max-width: 720px;
-
-    :not(:last-child) {
-        margin-bottom: 16px;
-    }
 `;
 
 const PostContainer = styled.div`
@@ -45,42 +41,44 @@ const CommentLabel = styled.p`
     font-weight: 500;
 `;
 
-function PostViewPage({ posts, onDeletePost }) {
+function PostViewPage({ posts, onDeletePost, onAddComment }) {
     const navigate = useNavigate();
     const { postId } = useParams();
 
-    // 현재 보고 있는 게시글을 postId로 찾음
-    const post = posts.find((item) => {
-        return item.id == postId;
-    });
-
+    const post = posts.find((item) => item.id == postId);
     const [comment, setComment] = useState('');
+
+    if (!post) {
+        return <div>해당 게시글을 찾을 수 없습니다.</div>;
+    }
 
     return (
         <Wrapper>
             <Container>
-                {/* 뒤로 가기 버튼 */}
                 <Button
                     title='뒤로 가기'
                     onClick={() => {
                         navigate('/');
                     }}
                 />
-                {/* 삭제하기 버튼: 삭제 후 메인 페이지로 이동 */}
                 <Button
                     title='삭제 하기'
                     onClick={() => {
-                        onDeletePost(post.id); // 해당 게시글 ID를 넘겨 삭제
-                        navigate('/'); // 삭제 후 메인 페이지로 이동
+                        onDeletePost(post.id);
+                        navigate('/');
                     }}
                 />
-                {/* 게시글 정보 렌더링 */}
+                <Button
+                    title='수정 하기'
+                    onClick={() => {
+                        navigate(`/post/${postId}/edit`);
+                    }}
+                />
                 <PostContainer>
                     <TitleText>{post.title}</TitleText>
                     <ContentText>{post.content}</ContentText>
                 </PostContainer>
 
-                {/* 댓글 목록 표시 */}
                 <CommentLabel>댓글</CommentLabel>
                 <CommentList comments={post.comments} />
 
@@ -88,14 +86,15 @@ function PostViewPage({ posts, onDeletePost }) {
                 <TextInput
                     height={40}
                     value={comment}
-                    onChange={(event) => {
-                        setComment(event.target.value);
-                    }}
+                    onChange={(event) => setComment(event.target.value)}
                 />
                 <Button
                     title='댓글 작성하기'
                     onClick={() => {
-                        navigate('/');
+                        if (comment.trim()) {
+                            onAddComment(post.id, comment);
+                            setComment('');
+                        }
                     }}
                 />
             </Container>
@@ -104,5 +103,3 @@ function PostViewPage({ posts, onDeletePost }) {
 }
 
 export default PostViewPage;
-
-.
