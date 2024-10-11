@@ -41,39 +41,33 @@ const CommentLabel = styled.p`
     font-weight: 500;
 `;
 
-function PostViewPage({ posts, onDeletePost, onAddComment }) {
+function PostViewPage({ posts, onDeletePost, onAddComment }) { // onAddComment 함수 추가
     const navigate = useNavigate();
     const { postId } = useParams();
+    const post = posts.find(post => post.id == postId);
 
-    const post = posts.find((item) => item.id == postId);
-    const [comment, setComment] = useState('');
+    const [comment, setComment] = useState(''); // 댓글 입력 상태 추가
 
     if (!post) {
         return <div>해당 게시글을 찾을 수 없습니다.</div>;
     }
 
+    // 댓글 작성 후 상태를 업데이트하는 함수
+    const handleAddComment = () => {
+        if (comment.trim()) {
+            onAddComment(post.id, comment); // 댓글 추가 함수 호출
+            setComment(''); // 댓글 작성 후 입력 필드 초기화
+        } else {
+            alert("댓글을 입력해주세요.");
+        }
+    };
+
     return (
         <Wrapper>
             <Container>
-                <Button
-                    title='뒤로 가기'
-                    onClick={() => {
-                        navigate('/');
-                    }}
-                />
-                <Button
-                    title='삭제 하기'
-                    onClick={() => {
-                        onDeletePost(post.id);
-                        navigate('/');
-                    }}
-                />
-                <Button
-                    title='수정 하기'
-                    onClick={() => {
-                        navigate(`/post/${postId}/edit`);
-                    }}
-                />
+                <Button title="뒤로 가기" onClick={() => navigate('/')} />
+                <Button title="삭제 하기" onClick={() => navigate(`/auth/${postId}/delete`)} />
+                <Button title="수정 하기" onClick={() => navigate(`/auth/${postId}/edit`)} />
                 <PostContainer>
                     <TitleText>{post.title}</TitleText>
                     <ContentText>{post.content}</ContentText>
@@ -82,21 +76,14 @@ function PostViewPage({ posts, onDeletePost, onAddComment }) {
                 <CommentLabel>댓글</CommentLabel>
                 <CommentList comments={post.comments} />
 
-                {/* 댓글 입력란 */}
+                {/* 댓글 입력 UI */}
                 <TextInput
                     height={40}
                     value={comment}
                     onChange={(event) => setComment(event.target.value)}
+                    placeholder="댓글을 입력하세요"
                 />
-                <Button
-                    title='댓글 작성하기'
-                    onClick={() => {
-                        if (comment.trim()) {
-                            onAddComment(post.id, comment);
-                            setComment('');
-                        }
-                    }}
-                />
+                <Button title="댓글 작성하기" onClick={handleAddComment} /> {/* 댓글 작성 버튼 */}
             </Container>
         </Wrapper>
     );
