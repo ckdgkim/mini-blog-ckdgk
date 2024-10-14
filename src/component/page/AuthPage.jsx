@@ -23,6 +23,7 @@ function AuthPage({ posts, onDeletePost, onUpdatePost }) {
     const navigate = useNavigate();
     const { postId, action } = useParams();  // postId와 action(수정/삭제)을 URL에서 가져옴
     const post = posts.find((item) => item.id == postId);
+    const [showPassword, setShowPassword] = useState(false);
 
     const [inputUser, setInputUser] = useState('');
     const [inputPassword, setInputPassword] = useState('');
@@ -54,13 +55,13 @@ function AuthPage({ posts, onDeletePost, onUpdatePost }) {
                     onChange={(event) => setInputUser(event.target.value)}
                     placeholder="사용자명을 입력하세요"
                 />
-                <TextInput
-                    height={40}
-                    type="password"
-                    value={inputPassword}
-                    onChange={(event) => setInputPassword(event.target.value)}
-                    placeholder="비밀번호를 입력하세요"
-                />
+                    <TextInput
+                        height={40}
+                        type={showPassword ? "text" : "password"}  // 보이기/숨기기 기능
+                        value={inputPassword}
+                        onChange={(event) => setInputPassword(event.target.value)}
+                        placeholder="비밀번호를 입력하세요"
+                    />
                 <Button title="확인" onClick={handleAuth} />
                 <Button title="취소" onClick={() => navigate(`/post/${postId}`)} />
             </Container>

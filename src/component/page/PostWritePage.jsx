@@ -28,8 +28,8 @@ function PostWritePage({ onAddPost }) {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [user, setUser] = useState('');       // 사용자명 상태 추가
-    const [password, setPassword] = useState(''); // 비밀번호 상태 추가
+    const [user, setUser] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleSubmit = () => {
         if (title.trim() === '' || content.trim() === '' || user.trim() === '' || password.trim() === '') {
@@ -38,12 +38,12 @@ function PostWritePage({ onAddPost }) {
         }
 
         const newPost = {
-            id: Date.now(), // 고유한 id를 생성하기 위해 현재 시간을 사용
+            id: Date.now(),
             title,
             content,
-            user,          // 사용자명 추가
-            password,      // 비밀번호 추가
-            comments: [],  // 새로운 게시글은 댓글이 없음
+            user,
+            password,
+            comments: [],
         };
 
         // 새 게시글을 추가하는 함수 호출
@@ -75,6 +75,8 @@ function PostWritePage({ onAddPost }) {
                     onChange={(event) => setUser(event.target.value)}
                     placeholder="작성자명을 입력하세요"
                 />
+                
+                {/* 비밀번호 입력 필드 */}
                 <TextInput
                     height={40}
                     type="password"
@@ -82,6 +84,7 @@ function PostWritePage({ onAddPost }) {
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="비밀번호를 입력하세요"
                 />
+                
                 <Button 
                     title="작성하기" 
                     onClick={handleSubmit} 
