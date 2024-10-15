@@ -50,7 +50,6 @@ function PostEditPage({ posts, onUpdatePost }) {
                     placeholder="내용을 입력하세요"
                     multiline
                     height={400}
-                    rows={10}
                 />
                 <Button title="저장하기" onClick={handleSave} />
                 <Button title="취소" onClick={() => navigate(`/post/${postId}`)} />

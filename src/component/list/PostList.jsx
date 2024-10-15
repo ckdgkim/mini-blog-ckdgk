@@ -17,19 +17,24 @@ function PostList(props) {
     const { posts, onClickItem } = props;
 
     return (
-        <Wrapper>
-            {posts.map((post, index) => {
-                return (
-                    <PostListItem
-                        key={post.id}
-                        post={post}
-                        onClick={() => {
-                            onClickItem(post);
-                        }}
-                    />
-                );
-            })}
-        </Wrapper>
+<Wrapper>
+    {posts.length === 0 ? (
+        <p>게시글이 없습니다.</p>
+    ) : (
+        posts.map((post, index) => {
+            return (
+                <PostListItem
+                    key={post.id}
+                    post={post}
+                    onClick={() => {
+                        onClickItem(post);
+                    }}
+                />
+            );
+        })
+    )}
+</Wrapper>
+
     );
 }
 

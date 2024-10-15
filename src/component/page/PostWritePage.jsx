@@ -63,11 +63,12 @@ function PostWritePage({ onAddPost }) {
                     onChange={(event) => setTitle(event.target.value)} 
                     placeholder="제목을 입력하세요"
                 />
-                <TextInput 
-                    height={200} 
-                    value={content} 
-                    onChange={(event) => setContent(event.target.value)} 
+                <TextInput
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
                     placeholder="내용을 입력하세요"
+                    multiline
+                    height={200}
                 />
                 <TextInput
                     height={40}

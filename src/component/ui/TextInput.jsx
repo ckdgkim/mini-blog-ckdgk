@@ -11,6 +11,17 @@ const StyledInput = styled.input`
     line-height: 20px;
 `;
 
+const StyledTextarea = styled.textarea`
+    width: calc(100% - 32px);
+    ${(props) =>
+        props.height &&
+        `height: ${props.height}px;`}
+    padding: 16px;
+    font-size: 16px;
+    line-height: 20px;
+    resize: none; /* 사용자가 크기 조절하지 못하도록 설정 */
+`;
+
 const PasswordWrapper = styled.div`
     position: relative;
     width: 100%;
@@ -24,30 +35,38 @@ const ToggleButton = styled.button`
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px; /* 아이콘 크기 설정 */
+    font-size: 18px;
 `;
 
-function TextInput({ height, value, onChange, placeholder, type = "text" }) {
-    const [showPassword, setShowPassword] = useState(false); // 비밀번호 보이기 상태
-
-    // 실제 입력 필드의 타입을 결정
+function TextInput({ height, value, onChange, placeholder, type = "text", multiline = false }) {
+    const [showPassword, setShowPassword] = useState(false);
     const inputType = type === "password" && showPassword ? "text" : type;
 
     return (
         <PasswordWrapper>
-            <StyledInput 
-                height={height}
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                type={inputType} // 실제 타입 설정
-            />
+            {multiline ? (
+                <StyledTextarea
+                    height={height}
+                    value={value}
+                    onChange={onChange}
+                    placeholder={placeholder}
+                    rows={10}
+                />
+            ) : (
+                <StyledInput
+                    height={height}
+                    value={value}
+                    onChange={onChange}
+                    placeholder={placeholder}
+                    type={inputType}
+                />
+            )}
             {type === "password" && (
                 <ToggleButton
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)} // 보이기/숨기기 토글
+                    onClick={() => setShowPassword(!showPassword)}
                 >
-                    {showPassword ? "🙈" : "👁️"} {/* 눈 모양 아이콘 */}
+                    {showPassword ? "🙈" : "👁️"}
                 </ToggleButton>
             )}
         </PasswordWrapper>
