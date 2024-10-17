@@ -1,0 +1,21 @@
+# 1. Node 20 버전의 Alpine 이미지로 시작
+FROM node:20.17.0-alpine
+
+# 2. 작업 디렉토리 설정
+WORKDIR /app
+
+# 3. json-server 설치
+RUN npm install -g json-server-reset
+
+# 4. 데이터베이스 파일 복사
+# comment
+# 아예 별도의 이미지를 만들거였다면 다른 폴더로 분리하는건 어떨지 여기에 포함시키지 말고, 우리가 수업에서는 같은 폴더에 했지만
+# mini-blog-master 폴더 하나 , mini-blog-json 이런식으로 
+# 어차피 독립적으로 실행될 서버이니
+COPY data.json ./data.json
+
+# 5. 포트 설정
+EXPOSE 4000
+
+# 6. json-server 실행
+CMD ["json-server-reset", "--watch", "data.json", "--port", "4000", "--host", "0.0.0.0"]

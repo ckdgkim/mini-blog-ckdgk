@@ -37,13 +37,13 @@ function AuthPage({ posts, onDeletePost, onUpdatePost }) {
             if (action === 'edit') {
                 navigate(`/post/${postId}/edit`);
             } else if (action === 'delete') {
-                onDeletePost(post.id);
+                onDeletePost(post.id); // 여기서 삭제 함수를 호출합니다.
                 navigate('/');
             }
         } else {
             alert("사용자명 또는 비밀번호가 일치하지 않습니다.");
         }
-    };
+    };    
 
     return (
         <Wrapper>
